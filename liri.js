@@ -4,14 +4,26 @@ require("dotenv").config();
 //Import the keys file and store it in a variable
 var keys = require("./keys.js");
 
+//require spotify api
+var Spotify = require('node-spotify-api');
+
 //spotify variable
-var spotify = new spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify);
+console.log(spotify);
+
+spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
+   
+  console.log(data); 
+  });
 
 //omdb variable
-var omdb = new omdb(keys.omdb);
+// var omdb = new omdb(keys.omdb);
 
-//bands in town variable
-var bandsInTown = new bandsInTown(keys.bandsInTown);
+// //bands in town variable
+// var bandsInTown = new bandsInTown(keys.bandsInTown);
 
 //node liri.js concert-this <artist/band name here>
 //search Bands in Town API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
