@@ -7,13 +7,14 @@ var keys = require("./keys.js");
 //require spotify api
 var Spotify = require('node-spotify-api');
 
+//require Axios
+var axios = require("axios");
+
 //spotify variable
 var spotify = new Spotify(keys.spotify);
-console.log(spotify);
 
 //get information from Spotify
 var getSpotifyData = function (songTitle) {
-
   spotify.search({ type: 'track', query: songTitle }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
@@ -23,6 +24,24 @@ var getSpotifyData = function (songTitle) {
     console.log("URL: " + data.tracks.items[0].album.external_urls.spotify);
     console.log("Album: " + data.tracks.items[0].album.name);
   });
+}
+
+//omdb variable
+var getOmdbData = function () {
+  //create url
+  var omdbUrl = "http://www.omdbapi.com/?t=" + content + "&tomatoes=true&y=&plot=short&apikey=trilogy";
+  axios.get(omdbUrl).then(
+    function(response) {
+      console.log("Title: " + response.data.Title);
+      console.log("Release Date: " + response.data.Released);
+      console.log("IMDB Rating: " + response.data.imdbRating);
+      console.log("Rotten Tomatoes Rating: " + response.data.Ratings[0]);
+      console.log("Production Country: " + response.data.Country);
+      console.log("Language(s): " + response.data.Language);
+      console.log("Plot: " + response.data.Plot);
+      console.log("Actors: " + response.data.Actors);
+    }
+  );
 }
 
 //search platform variable
@@ -37,7 +56,7 @@ switch (search) {
     break;
   //omdb search  
   case "movie-this":
-    // code block
+    getOmdbData(content);
     break;
   //bands in town search  
   case "concert-this":
@@ -54,11 +73,9 @@ switch (search) {
 }
 
 
-//omdb variable
-// var omdb = new omdb(keys.omdb);
+
 
 // //bands in town variable
-// var bandsInTown = new bandsInTown(keys.bandsInTown);
 
 //node liri.js concert-this <artist/band name here>
 //search Bands in Town API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
