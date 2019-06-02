@@ -35,7 +35,7 @@ var doWhatItSays = function () {
 //get information from Spotify
 var getSpotifyData = function (songTitle) {
   //if no song, default to "The Sign" by Ace of Base
-  if (songTitle === " ") {
+  if (songTitle == null) {
     songTitle = "The Sign, Ace of Base";
   }
   spotify.search({ type: "track", query: songTitle }, function (err, data) {
@@ -56,7 +56,7 @@ var getSpotifyData = function (songTitle) {
 //omdb variable
 var getOmdbData = function (movieTitle) {
   //if user doesn't type movie in, default to the movie "Mr. Nobody"
-  if (movieTitle === " ") {
+  if (movieTitle == null) {
     movieTitle = "Mr. Nobody";
   }
   //create url
