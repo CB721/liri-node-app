@@ -19,6 +19,19 @@ var fs = require("fs");
 //spotify variable
 var spotify = new Spotify(keys.spotify);
 
+//get information from random.txt file
+var doWhatItSays = function () {
+  fs.readFile("random.txt", "utf8", function (error, data) {
+    if (error) {
+      return console.log(error);
+    }
+    //remove Spotify command
+    var surpriseSong = data.slice(18, 38);
+    //call spotify function
+    getSpotifyData(surpriseSong);
+  });
+}
+
 //get information from Spotify
 var getSpotifyData = function (songTitle) {
   //if no song, default to "The Sign" by Ace of Base
@@ -99,7 +112,7 @@ switch (search) {
   //do what it says search  
   case "do-what-it-says":
     //get text from random.txt file
-    getSpotifyData("I Want it That Way");
+    doWhatItSays();
     break;
   //if no search  
   default:
