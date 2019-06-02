@@ -132,7 +132,7 @@ var runLiri = function (searchType, content) {
       break;
     //if no search  
     default:
-      console.log("Sorry, LIRI doesn't know how to do that.  Please try again.");
+      console.log("Sorry, LIRI doesn't know how to do " + searchType + ". Please try again.");
   };
 }
 runLiri(searchType, content);
