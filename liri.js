@@ -25,10 +25,10 @@ var doWhatItSays = function () {
     if (error) {
       return console.log(error);
     }
-    //remove Spotify command
-    var surpriseSong = data.slice(18, 38);
-    //call spotify function
-    getSpotifyData(surpriseSong);
+    //split text and put into an array
+    var textArray = data.split(",");
+    //run program with arguments from text file
+    runLiri(textArray[0], textArray[1]);
   });
 }
 
@@ -62,7 +62,7 @@ var getOmdbData = function (movieTitle) {
   //create url
   var omdbUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&tomatoes=true&y=&plot=short&apikey=trilogy";
   axios.get(omdbUrl).then(
-    function(response) {
+    function (response) {
       //movie title
       console.log("Title: " + response.data.Title);
       //year movie came out
@@ -88,13 +88,13 @@ var getBandsInTownData = function () {
   //create url
   var bandsUrl = "https://rest.bandsintown.com/artists/" + content + "/events?app_id=codingbootcamp";
   axios.get(bandsUrl).then(
-    function(response) {
+    function (response) {
       // Name of the venue
       console.log("Venue: " + response.data[0].venue.name);
       // Venue location
       console.log("Location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + ", " + response.data[0].venue.country);
       //get date and time
-      var time = response.data[1].datetime;
+      var time = response.data[0].datetime;
       //remove time
       var removeTime = time.slice(0, 10);
       //format date
@@ -106,30 +106,33 @@ var getBandsInTownData = function () {
 }
 
 //search platform variable
-var search = process.argv[2];
+var searchType = process.argv[2];
 //content search variable
 var content = process.argv[3];
-//switch statement
-switch (search) {
-  //spotify search
-  case "spotify-this-song":
-    getSpotifyData(content);
-    break;
-  //omdb search  
-  case "movie-this":
-    getOmdbData(content);
-    break;
-  //bands in town search  
-  case "concert-this":
+
+var runLiri = function (searchType, content) {
+  //switch statement
+  switch (searchType) {
+    //spotify search
+    case "spotify-this-song":
+      getSpotifyData(content);
+      break;
+    //omdb search  
+    case "movie-this":
+      getOmdbData(content);
+      break;
+    //bands in town search  
+    case "concert-this":
       getBandsInTownData(content);
-    // code block
-    break;
-  //do what it says search  
-  case "do-what-it-says":
-    //get text from random.txt file
-    doWhatItSays();
-    break;
-  //if no search  
-  default:
-  console.log("Sorry, LIRI doesn't know that.  Please try again.");
+      break;
+    //do what it says search  
+    case "do-what-it-says":
+      //get text from random.txt file
+      doWhatItSays();
+      break;
+    //if no search  
+    default:
+      console.log("Sorry, LIRI doesn't know how to do that.  Please try again.");
+  };
 }
+runLiri();
