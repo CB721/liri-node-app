@@ -11,13 +11,23 @@ var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 console.log(spotify);
 
-spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+//get information from Spotify
+var getSpotifyData = function (songTitle) {
+
+  spotify.search({ type: 'track', query: songTitle }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-   
-  console.log(data); 
+
+    console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+    console.log("Track name: " + data.tracks.items[0].name);
+    console.log("URL: " + data.tracks.items[0].album.external_urls.spotify);
+    console.log("Album: " + data.tracks.items[0].album.name);
   });
+}
+getSpotifyData("treat her like a lady");
+
+
 
 //omdb variable
 // var omdb = new omdb(keys.omdb);
