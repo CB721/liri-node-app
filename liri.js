@@ -90,9 +90,9 @@ var getBandsInTownData = function () {
   axios.get(bandsUrl).then(
     function(response) {
       // Name of the venue
-      console.log("Venue: " + response.data[0].venue);
+      console.log("Venue: " + response.data[0].venue.name);
       // Venue location
-      // console.log("Location: " + response.data[0].location);
+      console.log("Location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + ", " + response.data[0].venue.country);
       //get date and time
       var time = response.data[1].datetime;
       //remove time
