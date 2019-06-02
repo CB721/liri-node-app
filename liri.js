@@ -42,9 +42,13 @@ var getSpotifyData = function (songTitle) {
     if (err) {
       return console.log("Error occurred: " + err);
     }
+    //artists
     console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+    //song's name
     console.log("Track name: " + data.tracks.items[0].name);
+    //preview link of song from Spotify
     console.log("URL: " + data.tracks.items[0].album.external_urls.spotify);
+    //album the song is from
     console.log("Album: " + data.tracks.items[0].album.name);
   });
 }
@@ -59,13 +63,21 @@ var getOmdbData = function (movieTitle) {
   var omdbUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&tomatoes=true&y=&plot=short&apikey=trilogy";
   axios.get(omdbUrl).then(
     function(response) {
+      //movie title
       console.log("Title: " + response.data.Title);
+      //year movie came out
       console.log("Release Date: " + response.data.Released);
+      //IMDB rating
       console.log("IMDB Rating: " + response.data.imdbRating);
-      console.log("Rotten Tomatoes Rating: " + response.data.Ratings[0]);
+      //Rotten Tomatoes rating
+      console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+      //Country where movie was produced
       console.log("Production Country: " + response.data.Country);
+      //Language of the movie
       console.log("Language(s): " + response.data.Language);
+      //Plot of the movie
       console.log("Plot: " + response.data.Plot);
+      //Actors in the movie
       console.log("Actors: " + response.data.Actors);
     }
   );
@@ -77,14 +89,17 @@ var getBandsInTownData = function () {
   var bandsUrl = "https://rest.bandsintown.com/artists/" + content + "/events?app_id=codingbootcamp";
   axios.get(bandsUrl).then(
     function(response) {
+      // Name of the venue
       console.log("Venue: " + response.data[0].venue);
+      // Venue location
       // console.log("Location: " + response.data[0].location);
       //get date and time
       var time = response.data[1].datetime;
       //remove time
       var removeTime = time.slice(0, 10);
-      //format date with moment.js
+      //format date
       var concertDate = moment(removeTime).format('MM/DD/YYYY');
+      // Date of the Event (use moment to format this as "MM/DD/YYYY")
       console.log("Date: " + concertDate);
     }
   );
@@ -118,35 +133,3 @@ switch (search) {
   default:
   console.log("Sorry, LIRI doesn't know that.  Please try again.");
 }
-
-
-
-
-
-
-//node liri.js concert-this <artist/band name here>
-//search Bands in Town API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
-
-// Name of the venue
-// Venue location
-// Date of the Event (use moment to format this as "MM/DD/YYYY")
-
-//node liri.js spotify-this-song '<song name here>'
-//show the following info about the song in terminal
-
-//artists
-//song's name
-//preview link of song from Spotify
-//album the song is from
-
-
-//node liri.js movie-this '<movie name here>'
-//output the following info in terminal
-//movie title
-//year movie came out
-//IMDB rating
-//Rotten Tomatoes rating
-//Country where movie was produced
-//Language of the movie
-//Plot of the movie
-//Actors in the movie
