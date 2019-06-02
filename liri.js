@@ -18,6 +18,10 @@ var spotify = new Spotify(keys.spotify);
 
 //get information from Spotify
 var getSpotifyData = function (songTitle) {
+  //if no song, default to "The Sign" by Ace of Base
+  if (songTitle = " ") {
+    songTitle = "The Sign, Ace of Base";
+  }
   spotify.search({ type: 'track', query: songTitle }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
@@ -30,9 +34,13 @@ var getSpotifyData = function (songTitle) {
 }
 
 //omdb variable
-var getOmdbData = function () {
+var getOmdbData = function (movieTitle) {
+  //if user doesn't type movie in, default to the movie "Mr. Nobody"
+  if (movieTitle = " ") {
+    movieTitle = "Mr. Nobody";
+  }
   //create url
-  var omdbUrl = "http://www.omdbapi.com/?t=" + content + "&tomatoes=true&y=&plot=short&apikey=trilogy";
+  var omdbUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&tomatoes=true&y=&plot=short&apikey=trilogy";
   axios.get(omdbUrl).then(
     function(response) {
       console.log("Title: " + response.data.Title);
@@ -114,7 +122,7 @@ switch (search) {
 //song's name
 //preview link of song from Spotify
 //album the song is from
-//if no song, default to "The Sign" by Ace of Base
+
 
 //node liri.js movie-this '<movie name here>'
 //output the following info in terminal
@@ -126,4 +134,3 @@ switch (search) {
 //Language of the movie
 //Plot of the movie
 //Actors in the movie
-//if user doesn't type movie in, default to the movie "Mr. Nobody"
