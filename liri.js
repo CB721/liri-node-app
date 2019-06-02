@@ -44,6 +44,20 @@ var getOmdbData = function () {
   );
 }
 
+//bands in town variable
+var getBandsInTownData = function () {
+  //create url
+  var bandsUrl = "https://rest.bandsintown.com/artists/" + content + "/events?app_id=codingbootcamp";
+  axios.get(bandsUrl).then(
+    function(response) {
+      console.log("Venue: " + response.data[0].venue);
+      // console.log("Location: " + response.data[0].location);
+      //format date with moment.js
+      console.log("Date: " + response.data[1].datetime);
+    }
+  );
+}
+
 //search platform variable
 var search = process.argv[2];
 //content search variable
@@ -60,6 +74,7 @@ switch (search) {
     break;
   //bands in town search  
   case "concert-this":
+      getBandsInTownData(content);
     // code block
     break;
   //do what it says search  
@@ -75,7 +90,7 @@ switch (search) {
 
 
 
-// //bands in town variable
+
 
 //node liri.js concert-this <artist/band name here>
 //search Bands in Town API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
