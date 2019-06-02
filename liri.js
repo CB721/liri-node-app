@@ -135,4 +135,4 @@ var runLiri = function (searchType, content) {
       console.log("Sorry, LIRI doesn't know how to do that.  Please try again.");
   };
 }
-runLiri();
+runLiri(searchType, content);
