@@ -5,13 +5,16 @@ require("dotenv").config();
 var keys = require("./keys.js");
 
 //require spotify api
-var Spotify = require('node-spotify-api');
+var Spotify = require("node-spotify-api");
 
 //require Axios
 var axios = require("axios");
 
 //require Moment
-var moment = require('moment');
+var moment = require("moment");
+
+//require fs
+var fs = require("fs");
 
 //spotify variable
 var spotify = new Spotify(keys.spotify);
@@ -19,12 +22,12 @@ var spotify = new Spotify(keys.spotify);
 //get information from Spotify
 var getSpotifyData = function (songTitle) {
   //if no song, default to "The Sign" by Ace of Base
-  if (songTitle = " ") {
+  if (songTitle === " ") {
     songTitle = "The Sign, Ace of Base";
   }
-  spotify.search({ type: 'track', query: songTitle }, function (err, data) {
+  spotify.search({ type: "track", query: songTitle }, function (err, data) {
     if (err) {
-      return console.log('Error occurred: ' + err);
+      return console.log("Error occurred: " + err);
     }
     console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
     console.log("Track name: " + data.tracks.items[0].name);
@@ -36,7 +39,7 @@ var getSpotifyData = function (songTitle) {
 //omdb variable
 var getOmdbData = function (movieTitle) {
   //if user doesn't type movie in, default to the movie "Mr. Nobody"
-  if (movieTitle = " ") {
+  if (movieTitle === " ") {
     movieTitle = "Mr. Nobody";
   }
   //create url
