@@ -18,15 +18,40 @@ var getSpotifyData = function (songTitle) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-
     console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
     console.log("Track name: " + data.tracks.items[0].name);
     console.log("URL: " + data.tracks.items[0].album.external_urls.spotify);
     console.log("Album: " + data.tracks.items[0].album.name);
   });
 }
-getSpotifyData("treat her like a lady");
 
+//search platform variable
+var search = process.argv[2];
+//content search variable
+var content = process.argv[3];
+//switch statement
+switch (search) {
+  //spotify search
+  case "spotify-this-song":
+    getSpotifyData(content);
+    break;
+  //omdb search  
+  case "movie-this":
+    // code block
+    break;
+  //bands in town search  
+  case "concert-this":
+    // code block
+    break;
+  //do what it says search  
+  case "do-what-it-says":
+    //get text from random.txt file
+    getSpotifyData("I Want it That Way");
+    break;
+  //if no search  
+  default:
+  console.log("Sorry, LIRI doesn't know that.  Please try again.");
+}
 
 
 //omdb variable
