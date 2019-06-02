@@ -10,6 +10,9 @@ var Spotify = require('node-spotify-api');
 //require Axios
 var axios = require("axios");
 
+//require Moment
+var moment = require('moment');
+
 //spotify variable
 var spotify = new Spotify(keys.spotify);
 
@@ -52,8 +55,13 @@ var getBandsInTownData = function () {
     function(response) {
       console.log("Venue: " + response.data[0].venue);
       // console.log("Location: " + response.data[0].location);
+      //get date and time
+      var time = response.data[1].datetime;
+      //remove time
+      var removeTime = time.slice(0, 10);
       //format date with moment.js
-      console.log("Date: " + response.data[1].datetime);
+      var concertDate = moment(removeTime).format('MM/DD/YYYY');
+      console.log("Date: " + concertDate);
     }
   );
 }
