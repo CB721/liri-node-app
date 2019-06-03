@@ -1,3 +1,10 @@
+//install firebase npm
+//require firebase
+//reference firebase
+//capture values
+//send values to firebase
+
+
 //Set environment variables with dotenv
 require("dotenv").config();
 
