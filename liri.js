@@ -1,6 +1,17 @@
 //install firebase npm
 //require firebase
 //reference firebase
+var firebaseConfig = {
+  apiKey: "AIzaSyB6ZbWLs2mUtX9A9ugWSSEoratgT1tZsEg",
+  authDomain: "liri-app-7f053.firebaseapp.com",
+  databaseURL: "https://liri-app-7f053.firebaseio.com",
+  projectId: "liri-app-7f053",
+  storageBucket: "",
+  messagingSenderId: "5857358844",
+  appId: "1:5857358844:web:bf2b795991d3b247"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 //capture values
 //send values to firebase
 
