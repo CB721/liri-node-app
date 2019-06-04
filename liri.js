@@ -43,7 +43,7 @@ var doWhatItSays = function () {
   });
 }
 
-//get information from Spotify
+//get spotify function
 var getSpotifyData = function (songTitle) {
   //if no song, default to "The Sign" by Ace of Base
   if (songTitle == null) {
@@ -78,7 +78,7 @@ var getSpotifyData = function (songTitle) {
   });
 }
 
-//omdb variable
+//get omdb function
 var getOmdbData = function (movieTitle) {
   //if user doesn't type movie in, default to the movie "Mr. Nobody"
   if (movieTitle == null) {
@@ -130,7 +130,7 @@ var getOmdbData = function (movieTitle) {
   );
 }
 
-//bands in town variable
+//get bands in town function
 var getBandsInTownData = function () {
   //create url
   var bandsUrl = "https://rest.bandsintown.com/artists/" + content + "/events?app_id=codingbootcamp";
@@ -140,11 +140,11 @@ var getBandsInTownData = function () {
       var venue = response.data[0].venue.name;
       var location = response.data[0].venue.city + ", " + response.data[0].venue.region + ", " + response.data[0].venue.country;
       //get date and time
-      var time = response.data[0].datetime;
+      var timeDate = response.data[0].datetime;
       //remove time
-      var removeTime = time.slice(0, 10);
+      var date = timeDate.slice(0, 10);
       //format date
-      var concertDate = moment(removeTime).format('MM/DD/YYYY');
+      var concertDate = moment(date).format('MM/DD/YYYY');
       //push data to the database
       database.ref().push({
         searchPlatform: "Concert Search",
@@ -152,7 +152,6 @@ var getBandsInTownData = function () {
         venue: venue,
         location: location,
         concertDate: concertDate,
-
         timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
       });
       // Name of the venue
@@ -167,8 +166,17 @@ var getBandsInTownData = function () {
 
 //search platform variable
 var searchType = process.argv[2];
-//content search variable
-var content = process.argv[3];
+//user input
+var userInput = process.argv;
+//empty array for user input
+var inputArr = [];
+//remove node, file name and searchType and push to empty array
+for (var i = 3; i < userInput.length; i++) {
+  //push to empty array
+  inputArr.push(userInput[i]);
+}
+//join items in inputArr to create a new string
+var content = inputArr.join(' ');
 
 var runLiri = function (searchType, content) {
   //switch statement
@@ -193,6 +201,12 @@ var runLiri = function (searchType, content) {
     //if no search  
     default:
       console.log("Sorry, LIRI doesn't know how to do " + searchType + ". Please try again.");
+      //log error and time to database
+      database.ref().push({
+        searchPlatform: "Error!",
+        errorInput: searchType,
+        timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+      });
   };
 }
 runLiri(searchType, content);
