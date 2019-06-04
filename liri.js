@@ -1,3 +1,15 @@
+//require firebase
+var firebase = require("firebase-admin");
+//require service account key
+var serviceAccount = require("./liri-app-7f053-firebase-adminsdk-eb2jv-c188b92616.json");
+// Initialize Firebase
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
+  databaseURL: "https://liri-app-7f053.firebaseio.com"
+});
+//variable for database
+var database = firebase.database();
+
 //Set environment variables with dotenv
 require("dotenv").config();
 
@@ -6,6 +18,8 @@ var keys = require("./keys.js");
 
 //require spotify api
 var Spotify = require("node-spotify-api");
+//spotify variable
+var spotify = new Spotify(keys.spotify);
 
 //require Axios
 var axios = require("axios");
@@ -15,9 +29,6 @@ var moment = require("moment");
 
 //require fs
 var fs = require("fs");
-
-//spotify variable
-var spotify = new Spotify(keys.spotify);
 
 //get information from random.txt file
 var doWhatItSays = function () {
@@ -42,14 +53,28 @@ var getSpotifyData = function (songTitle) {
     if (err) {
       return console.log("Error occurred: " + err);
     }
+    //capture results as values
+    var artist = data.tracks.items[0].album.artists[0].name;
+    var trackName = data.tracks.items[0].name;
+    var songLink = data.tracks.items[0].album.external_urls.spotify;
+    var albumName = data.tracks.items[0].album.name;
+    //push data to the database
+    database.ref().push({
+      searchPlatform: "Spotify Search",
+      artist: artist,
+      trackName: trackName,
+      songLink: songLink,
+      albumName: albumName,
+      timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+    });
     //artists
-    console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+    console.log("Artist: " + artist);
     //song's name
-    console.log("Track name: " + data.tracks.items[0].name);
+    console.log("Track name: " + trackName);
     //preview link of song from Spotify
-    console.log("URL: " + data.tracks.items[0].album.external_urls.spotify);
+    console.log("URL: " + songLink);
     //album the song is from
-    console.log("Album: " + data.tracks.items[0].album.name);
+    console.log("Album: " + albumName);
   });
 }
 
@@ -63,22 +88,44 @@ var getOmdbData = function (movieTitle) {
   var omdbUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&tomatoes=true&y=&plot=short&apikey=trilogy";
   axios.get(omdbUrl).then(
     function (response) {
+      //capture results as values
+      var title = response.data.Title;
+      var releaseDate = response.data.Released;
+      var IMDBRating = response.data.imdbRating;
+      var rottenTomatoesRating = response.data.Ratings[1].Value;
+      var prodCountry = response.data.Country;
+      var language = response.data.Language;
+      var plot = response.data.Plot;
+      var actors = response.data.Actors;
+      //push data to the database
+      database.ref().push({
+        searchPlatform: "Movie Search",
+        title: title,
+        releaseDate: releaseDate,
+        IMDBRating: IMDBRating,
+        rottenTomatoesRating: rottenTomatoesRating,
+        prodCountry: prodCountry,
+        language: language,
+        plot: plot,
+        actors: actors,
+        timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+      });
       //movie title
-      console.log("Title: " + response.data.Title);
+      console.log("Title: " + title);
       //year movie came out
-      console.log("Release Date: " + response.data.Released);
+      console.log("Release Date: " + releaseDate);
       //IMDB rating
-      console.log("IMDB Rating: " + response.data.imdbRating);
+      console.log("IMDB Rating: " + IMDBRating);
       //Rotten Tomatoes rating
-      console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+      console.log("Rotten Tomatoes Rating: " + rottenTomatoesRating);
       //Country where movie was produced
-      console.log("Production Country: " + response.data.Country);
+      console.log("Production Country: " + prodCountry);
       //Language of the movie
-      console.log("Language(s): " + response.data.Language);
+      console.log("Language(s): " + language);
       //Plot of the movie
-      console.log("Plot: " + response.data.Plot);
+      console.log("Plot: " + plot);
       //Actors in the movie
-      console.log("Actors: " + response.data.Actors);
+      console.log("Actors: " + actors);
     }
   );
 }
@@ -89,16 +136,29 @@ var getBandsInTownData = function () {
   var bandsUrl = "https://rest.bandsintown.com/artists/" + content + "/events?app_id=codingbootcamp";
   axios.get(bandsUrl).then(
     function (response) {
-      // Name of the venue
-      console.log("Venue: " + response.data[0].venue.name);
-      // Venue location
-      console.log("Location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + ", " + response.data[0].venue.country);
+      //capture results as values
+      var venue = response.data[0].venue.name;
+      var location = response.data[0].venue.city + ", " + response.data[0].venue.region + ", " + response.data[0].venue.country;
       //get date and time
       var time = response.data[0].datetime;
       //remove time
       var removeTime = time.slice(0, 10);
       //format date
       var concertDate = moment(removeTime).format('MM/DD/YYYY');
+      //push data to the database
+      database.ref().push({
+        searchPlatform: "Concert Search",
+        artist: content,
+        venue: venue,
+        location: location,
+        concertDate: concertDate,
+
+        timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+      });
+      // Name of the venue
+      console.log("Venue: " + venue);
+      // Venue location
+      console.log("Location: " + location);
       // Date of the Event (use moment to format this as "MM/DD/YYYY")
       console.log("Date: " + concertDate);
     }
