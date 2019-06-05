@@ -67,14 +67,26 @@ var getSpotifyData = function (songTitle) {
       albumName: albumName,
       timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
     });
+    //array for logging to txt file
+    var songsArr = [
+      "Artist: " + artist,
+      "Track name: " + trackName,
+      "URL: " + songLink,
+      "Album: " + albumName
+    ]
     //artists
-    console.log("Artist: " + artist);
+    console.log(songsArr[0]);
     //song's name
-    console.log("Track name: " + trackName);
+    console.log(songsArr[1]);
     //preview link of song from Spotify
-    console.log("URL: " + songLink);
+    console.log(songsArr[2]);
     //album the song is from
-    console.log("Album: " + albumName);
+    console.log(songsArr[3]);
+    //write data to txt file
+    fs.appendFile("log.txt", songsArr, function(err) {
+      if (err) throw err;
+      console.log("Data has been written to the file.");
+    });
   });
 }
 
@@ -110,22 +122,38 @@ var getOmdbData = function (movieTitle) {
         actors: actors,
         timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
       });
+      //array for logging to txt file
+      var movieArr = [
+        "Title: " + title,
+        "Release Date: " + releaseDate,
+        "IMDB Rating: " + IMDBRating,
+        "Rotten Tomatoes Rating: " + rottenTomatoesRating,
+        "Production Country: " + prodCountry,
+        "Language(s): " + language,
+        "Plot: " + plot,
+        "Actors: " + actors
+      ]
       //movie title
-      console.log("Title: " + title);
+      console.log(movieArr[0]);
       //year movie came out
-      console.log("Release Date: " + releaseDate);
+      console.log(movieArr[1]);
       //IMDB rating
-      console.log("IMDB Rating: " + IMDBRating);
+      console.log(movieArr[2]);
       //Rotten Tomatoes rating
-      console.log("Rotten Tomatoes Rating: " + rottenTomatoesRating);
+      console.log(movieArr[3]);
       //Country where movie was produced
-      console.log("Production Country: " + prodCountry);
+      console.log(movieArr[4]);
       //Language of the movie
-      console.log("Language(s): " + language);
+      console.log(movieArr[5]);
       //Plot of the movie
-      console.log("Plot: " + plot);
+      console.log(movieArr[6]);
       //Actors in the movie
-      console.log("Actors: " + actors);
+      console.log(movieArr[7]);
+      //write data to txt file
+      fs.appendFile("log.txt", movieArr, function(err) {
+        if (err) throw err;
+        console.log("Data has been written to the file.");
+      });
     }
   );
 }
@@ -154,12 +182,23 @@ var getBandsInTownData = function () {
         concertDate: concertDate,
         timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
       });
+      //array for logging to txt file
+      var bandsArr = [
+        "Venue: " + venue,
+        "Location: " + location,
+        "Date: " + concertDate
+      ]
       // Name of the venue
-      console.log("Venue: " + venue);
+      console.log(bandsArr[0]);
       // Venue location
-      console.log("Location: " + location);
+      console.log(bandsArr[1]);
       // Date of the Event (use moment to format this as "MM/DD/YYYY")
-      console.log("Date: " + concertDate);
+      console.log(bandsArr[2]);
+      //write data to txt file
+      fs.appendFile("log.txt", bandsArr, function(err) {
+        if (err) throw err;
+        console.log("Data has been written to the file.");
+      });
     }
   );
 }
