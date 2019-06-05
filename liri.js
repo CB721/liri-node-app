@@ -73,7 +73,14 @@ var getSpotifyData = function (songTitle) {
       "Track name: " + trackName,
       "URL: " + songLink,
       "Album: " + albumName
-    ]
+    ].join("\n\n");
+    //divider line for text file
+    var divider = "\n------------------------------------------------------------\n\n";
+    //write data to txt file
+    fs.appendFile("log.txt", songsArr + divider, function(err) {
+      if (err) throw err;
+      console.log("Data has been written to the file.");
+    });
     //artists
     console.log(songsArr[0]);
     //song's name
@@ -82,11 +89,6 @@ var getSpotifyData = function (songTitle) {
     console.log(songsArr[2]);
     //album the song is from
     console.log(songsArr[3]);
-    //write data to txt file
-    fs.appendFile("log.txt", songsArr, function(err) {
-      if (err) throw err;
-      console.log("Data has been written to the file.");
-    });
   });
 }
 
@@ -132,7 +134,14 @@ var getOmdbData = function (movieTitle) {
         "Language(s): " + language,
         "Plot: " + plot,
         "Actors: " + actors
-      ]
+      ].join("\n\n");
+      //divider line for text file
+      var divider = "\n------------------------------------------------------------\n\n";
+      //write data to txt file
+      fs.appendFile("log.txt", movieArr + divider, function(err) {
+        if (err) throw err;
+        console.log("Data has been written to the file.");
+      });
       //movie title
       console.log(movieArr[0]);
       //year movie came out
@@ -149,11 +158,6 @@ var getOmdbData = function (movieTitle) {
       console.log(movieArr[6]);
       //Actors in the movie
       console.log(movieArr[7]);
-      //write data to txt file
-      fs.appendFile("log.txt", movieArr, function(err) {
-        if (err) throw err;
-        console.log("Data has been written to the file.");
-      });
     }
   );
 }
@@ -187,18 +191,20 @@ var getBandsInTownData = function () {
         "Venue: " + venue,
         "Location: " + location,
         "Date: " + concertDate
-      ]
+      ].join("\n\n");
+      //divider line for text file
+      var divider = "\n------------------------------------------------------------\n\n";
+      //write data to txt file
+      fs.appendFile("log.txt", bandsArr + divider, function(err) {
+        if (err) throw err;
+        console.log("Data has been written to the file.");
+      });
       // Name of the venue
       console.log(bandsArr[0]);
       // Venue location
       console.log(bandsArr[1]);
       // Date of the Event (use moment to format this as "MM/DD/YYYY")
       console.log(bandsArr[2]);
-      //write data to txt file
-      fs.appendFile("log.txt", bandsArr, function(err) {
-        if (err) throw err;
-        console.log("Data has been written to the file.");
-      });
     }
   );
 }
