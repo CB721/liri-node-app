@@ -46,7 +46,7 @@ var doWhatItSays = function () {
 //get spotify function
 var getSpotifyData = function (songTitle) {
   //if no song, default to "The Sign" by Ace of Base
-  if (songTitle == null) {
+  if (!songTitle) {
     songTitle = "The Sign, Ace of Base";
   }
   spotify.search({ type: "track", query: songTitle }, function (err, data) {
@@ -73,7 +73,7 @@ var getSpotifyData = function (songTitle) {
       "Track name: " + trackName,
       "URL: " + songLink,
       "Album: " + albumName
-    ].join("\n\n");
+    ];
     //divider line for text file
     var divider = "\n------------------------------------------------------------\n\n";
     //write data to txt file
@@ -134,7 +134,7 @@ var getOmdbData = function (movieTitle) {
         "Language(s): " + language,
         "Plot: " + plot,
         "Actors: " + actors
-      ].join("\n\n");
+      ];
       //divider line for text file
       var divider = "\n------------------------------------------------------------\n\n";
       //write data to txt file
@@ -191,7 +191,7 @@ var getBandsInTownData = function () {
         "Venue: " + venue,
         "Location: " + location,
         "Date: " + concertDate
-      ].join("\n\n");
+      ];
       //divider line for text file
       var divider = "\n------------------------------------------------------------\n\n";
       //write data to txt file
