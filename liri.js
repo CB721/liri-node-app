@@ -95,7 +95,7 @@ var getSpotifyData = function (songTitle) {
 //get omdb function
 var getOmdbData = function (movieTitle) {
   //if user doesn't type movie in, default to the movie "Mr. Nobody"
-  if (movieTitle == null) {
+  if (!movieTitle) {
     movieTitle = "Mr. Nobody";
   }
   //create url
