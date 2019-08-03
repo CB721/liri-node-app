@@ -124,6 +124,7 @@ var getOmdbData = function (movieTitle) {
         actors: actors,
         timeAdded: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
       });
+      firebase.end();
       //array for logging to txt file
       var movieArr = [
         "Title: " + title,
